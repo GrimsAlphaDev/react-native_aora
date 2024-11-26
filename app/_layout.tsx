@@ -9,6 +9,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Stack } from 'expo-router';
 
 import "../global.css";
+import { GlobalProvider } from '@/context/GlobalProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -40,11 +41,13 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack 
-          screenOptions={{
-            headerShown: false,
-          }}
-        />
+        <GlobalProvider>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
+        </GlobalProvider>
       </ThemeProvider>
     </SafeAreaProvider>
   );
