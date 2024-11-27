@@ -2,6 +2,7 @@ import { FlatList, Image, ImageBackground, StyleSheet, Text, TouchableOpacity, V
 import React, { useState } from 'react'
 import * as Animatable from 'react-native-animatable'
 import { icons } from '@/constants'
+import { ResizeMode, Video } from 'expo-av'
 
 type PostsType = {
     $id: string,
@@ -39,15 +40,32 @@ const zoomOut: Animatable.CustomAnimation = {
 
 
 const TrendingItem = ({ activeItem, item }: { activeItem: any, item: PostsType }) => {
-    
+
     const [play, setPlay] = useState(false)
 
 
+    const videoRef = React.useRef(null);
     return (
         <Animatable.View className='mr-5'
             animation={activeItem === item.$id ? zoomIn : zoomOut} duration={500}>
             {play ? (
-                <Text className='text-white'>Playing</Text>
+                <Video
+                    ref={videoRef}
+                    source={{ uri: item.video.toString() }}
+                    style={{ width: 200, height: 250 }}
+                    resizeMode={ResizeMode.CONTAIN}
+                    useNativeControls
+                    shouldPlay
+                    onPlaybackStatusUpdate={(status) => {
+                        if (status.isLoaded) {
+                            if(status.didJustFinish) {
+                                setPlay(false)
+                            }
+                        } else if (status.error) {
+                            console.error('Error loading video:', status.error);
+                        }
+                    }}
+                />
             ) : (
                 <TouchableOpacity className='relative justify-center items-center' activeOpacity={0.7} onPress={() => setPlay(true)}>
                     <ImageBackground
@@ -72,8 +90,8 @@ export default function Trending({ posts }: { posts: PostsType[] }) {
 
     const [activeItem, setActiveItem] = React.useState(posts[1])
 
-    const viewableItemsChanged = ({viewableItems}: {viewableItems: any}) => {
-        if(viewableItems.length > 0) {
+    const viewableItemsChanged = ({ viewableItems }: { viewableItems: any }) => {
+        if (viewableItems.length > 0) {
             setActiveItem(viewableItems[0].key)
         }
     }
@@ -86,10 +104,10 @@ export default function Trending({ posts }: { posts: PostsType[] }) {
                 <TrendingItem activeItem={activeItem} item={item} />
             )}
             horizontal={true}
-            viewabilityConfig={{ 
+            viewabilityConfig={{
                 itemVisiblePercentThreshold: 70
-             }}
-             contentOffset={{ x: 10, y: 0 }}
+            }}
+            contentOffset={{ x: 10, y: 0 }}
             onViewableItemsChanged={viewableItemsChanged}
         />
     )
