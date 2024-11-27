@@ -37,7 +37,7 @@ export default function TabsLayout() {
                     tabBarInactiveTintColor: '#CDCDE0',
                     tabBarStyle: {
                         backgroundColor: '#161622',
-                        borderTopWidth: 1,
+                        borderTopWidth: 0.2,
                         borderTopColor: '#232533',
                         height: 45,
                     }
@@ -52,7 +52,7 @@ export default function TabsLayout() {
                                 color={color}
                                 name="Home"
                                 focused={focused} />;
-                        }
+                        },
                     }}
                 />
                 <Tabs.Screen
@@ -95,14 +95,7 @@ export default function TabsLayout() {
                     }}
                 />
             </Tabs >
+            
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})
