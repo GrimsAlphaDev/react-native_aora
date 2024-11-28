@@ -5,7 +5,8 @@ import { images } from '@/constants'
 import FormField from '@/components/FormField'
 import CustomButton from '@/components/CustomButton'
 import { Link, router } from 'expo-router'
-import { signIn } from '@/lib/appwrite'
+import { getCurrentUser, signIn } from '@/lib/appwrite'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
 type FormFieldProps = {
   email: string
@@ -13,6 +14,13 @@ type FormFieldProps = {
 }
 
 export default function SignIn() {
+
+  const globalContext = useGlobalContext();
+  if (!globalContext) {
+    console.log('Global Context is not available');
+    return null;
+  }
+  const { setUser, setIsLoggedIn } = globalContext;
 
   const [form, setForm] = useState<FormFieldProps>({
     email: '',
@@ -31,7 +39,9 @@ export default function SignIn() {
     try {
       await signIn(form.email, form.password)
 
-      // set it to global state
+      const result = await getCurrentUser();
+      setUser(result);
+      setIsLoggedIn(true);
 
       router.replace('/home')
 
