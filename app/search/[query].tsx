@@ -19,7 +19,7 @@ export default function Search() {
     }, [query])
 
     return (
-        <SafeAreaView className='bg-primary h-full'>
+        <SafeAreaView className='bg-primary h-full mt-12'>
 
             <FlatList
                 data={posts}

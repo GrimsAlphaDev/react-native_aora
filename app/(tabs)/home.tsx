@@ -32,7 +32,7 @@ export default function Home() {
 
 
   return (
-    <SafeAreaView className='bg-primary h-full'>
+    <SafeAreaView className='bg-primary h-full mt-12' >
 
       <FlatList
         data={posts}

@@ -29,7 +29,7 @@ export default function Profile() {
     const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
 
     return (
-        <SafeAreaView className='bg-primary h-full'>
+        <SafeAreaView className='bg-primary h-full mt-12'>
 
             <FlatList
                 data={posts}
