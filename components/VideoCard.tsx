@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 
 import { icons, images } from '@/constants'
+import { ResizeMode, Video } from 'expo-av'
 
 type VideoType = {
     id: string,
@@ -19,6 +20,7 @@ type CreatorType = {
 export default function VideoCard({ video }: { video: VideoType }) {
 
     const [play, setPlay] = useState(false)
+    const videoRef = React.useRef(null);
 
     return (
         <View className='flex-col items-center px-6 mb-14'>
@@ -47,7 +49,24 @@ export default function VideoCard({ video }: { video: VideoType }) {
             </View>
 
             {play ? (
-                <Text className='text-white'>Playing</Text>
+                <Video
+                ref={videoRef}
+                source={{ uri: video.video }}
+                style={{ width: 400, height: 300 }}
+                className='w-full h-60 rounded-xl mt-3'
+                resizeMode={ResizeMode.CONTAIN}
+                useNativeControls
+                shouldPlay
+                onPlaybackStatusUpdate={(status) => {
+                    if (status.isLoaded) {
+                        if(status.didJustFinish) {
+                            setPlay(false)
+                        }
+                    } else if (status.error) {
+                        console.error('Error loading video:', status.error);
+                    }
+                }}
+            />
             ): (
                 <TouchableOpacity
                 className='w-full h-60 rounded-xl mt-3 relative justify-center items-center'
