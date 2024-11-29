@@ -55,6 +55,9 @@ export default function TabsLayout() {
                                     name="Home"
                                     focused={focused} />;
                             },
+                            sceneStyle: {
+                                backgroundColor: '#161622'
+                            }
                         }}
                     />
                     <Tabs.Screen
@@ -67,6 +70,9 @@ export default function TabsLayout() {
                                     color={color}
                                     name="Bookmark"
                                     focused={focused} />;
+                            },
+                            sceneStyle: {
+                                backgroundColor: '#161622'
                             }
                         }}
                     />
@@ -80,6 +86,9 @@ export default function TabsLayout() {
                                     color={color}
                                     name="Create"
                                     focused={focused} />;
+                            },
+                            sceneStyle: {
+                                backgroundColor: '#161622'
                             }
                         }}
                     />
@@ -93,6 +102,9 @@ export default function TabsLayout() {
                                     color={color}
                                     name="Profile"
                                     focused={focused} />;
+                            },
+                            sceneStyle: {
+                                backgroundColor: '#161622'
                             }
                         }}
                     />

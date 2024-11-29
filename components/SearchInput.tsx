@@ -34,7 +34,6 @@ export default function SearchInput({ title, value, handleChangeText, otherStyle
 
                     if (pathname.startsWith('/search')) router.setParams({
                         query: query,
-                        option: 'HOME'
                     })
                     else router.push(`/search/${query}`)
                 }}

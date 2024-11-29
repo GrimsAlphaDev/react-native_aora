@@ -33,7 +33,7 @@ export default function Home() {
 
 
   return (
-    <SafeAreaView className='bg-primary h-full mt-6' >
+    <SafeAreaView  className='bg-primary h-full mt-11'>
 
       <FlatList
         data={posts}
@@ -42,6 +42,7 @@ export default function Home() {
           <VideoCard
             video={item}
             bookmarked={true}
+            refetch={refetch}
           />
         )}
         ListHeaderComponent={() => (
@@ -56,7 +57,7 @@ export default function Home() {
               </View>
             </View>
 
-            <SearchInput title='Search' keyboardType='default' placeholder='Search for a video topic' value='' handleChangeText={(e) => { }} />
+            <SearchInput title='Search' keyboardType='default' placeholder='Search for a video topic' value='' handleChangeText={(e) => { }}/>
 
             <View className='w-full flex-1 pt-5 pb-8'>
               <Text className='text-gray-100 text-lg font-pregular mb-3'>

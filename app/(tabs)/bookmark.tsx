@@ -28,14 +28,15 @@ export default function Bookmark() {
     }
 
     return (
-        <SafeAreaView className="bg-primary h-full mt-6">
+        <SafeAreaView className="bg-primary h-full mt-11">
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <VideoCard
                         video={item}
-                        bookmarked={false}
+                        bookmarked={true}
+                        refetch={refetch}
                     />
                 )}
                 ListHeaderComponent={() => (
@@ -48,12 +49,6 @@ export default function Bookmark() {
                             <View className='mt-1.5'>
                             </View>
                         </View>
-                        <SearchInput
-                            title="Search"
-                            keyboardType="default"
-                            placeholder="Search your saved videos"
-                            value=""
-                        />
 
                     </View>
 

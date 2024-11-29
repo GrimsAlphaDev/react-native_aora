@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { icons, images } from '@/constants'
 import { ResizeMode, Video } from 'expo-av'
-import { updateSavedPosts } from '@/lib/appwrite'
+import { getAllPosts, getSavedPosts, updateSavedPosts } from '@/lib/appwrite'
 import { useGlobalContext } from '@/context/GlobalProvider'
 
 type VideoType = {
@@ -22,7 +22,7 @@ type CreatorType = {
 }
 
 
-export default function VideoCard({ video, bookmarked }: { video: VideoType, bookmarked: boolean }) {
+export default function VideoCard({ video, bookmarked, refetch }: { video: VideoType, bookmarked: boolean, refetch?: () => void }) {
 
 
     const globalContext = useGlobalContext();
@@ -35,23 +35,18 @@ export default function VideoCard({ video, bookmarked }: { video: VideoType, boo
     const [play, setPlay] = useState(false)
     const videoRef = React.useRef(null);
 
-    const [isSaved, setIsSaved] = useState<{
-        isSaved: boolean
-    }>({
-        isSaved: video.saved
-    })
 
     const updateSaved = async () => {
         setIsLoading(true);
         console.log('test:', video);
         try {
             await updateSavedPosts(video.$id, user.$id)
-            Alert.alert('Success', `Video ${isSaved.isSaved ? 'removed from' : 'added to'} saved`)
+            Alert.alert('Success', `Video ${video.saved ? 'removed from' : 'added to'} saved`)
+            refetch && refetch()
         } catch (error) {
             console.error('Error updating saved status:', error)
             Alert.alert('Error updating saved status')
         } finally {
-            setIsSaved({ isSaved: !isSaved.isSaved })
             setIsLoading(false)
         }
     }
@@ -85,7 +80,7 @@ export default function VideoCard({ video, bookmarked }: { video: VideoType, boo
                         <View className='pt-2'>
                             {bookmarked && (
                                 <TouchableOpacity onPress={updateSaved}>
-                                    <Image source={isSaved.isSaved ? icons.heartFilled : icons.heart} className='w-6 h-6 ' resizeMode='contain' />
+                                    <Image source={video.saved ? icons.heartFilled : icons.heart} className='w-6 h-6 ' resizeMode='contain' />
                                 </TouchableOpacity>
                             )}
                         </View>
