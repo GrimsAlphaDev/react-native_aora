@@ -12,6 +12,8 @@ const icons = {
     eyeHide: require("../assets/icons/eye-hide.png"),
     eye: require("../assets/icons/eye.png"),
     play: require("../assets/icons/play.png"),
+    heart: require("../assets/icons/love.png"),
+    heartFilled: require("../assets/icons/heart_filled.png"),
 };
 
 export default icons;

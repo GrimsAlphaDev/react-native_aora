@@ -3,23 +3,31 @@ import React, { useEffect } from 'react'
 
 import SearchInput from '@/components/SearchInput'
 import EmptyState from '@/components/EmptyState'
-import { searchPosts } from '@/lib/appwrite'
+import { getSavedPosts, searchPosts } from '@/lib/appwrite'
 import useAppwrite from '@/lib/useAppwrite'
 import VideoCard from '@/components/VideoCard'
 import { useLocalSearchParams } from 'expo-router'
+import { useGlobalContext } from '@/context/GlobalProvider'
 
-export default function Search() {
+export default function Saved() {
+
+    const globalContext = useGlobalContext();
+    if (!globalContext) {
+        console.log('Global Context is not available');
+        return null;
+    }
+    const { user } = globalContext;
 
     const { query } : any = useLocalSearchParams();
 
-    const { data: posts, refetch } = useAppwrite(() => searchPosts(query));
+    const { data: posts, refetch } = useAppwrite(() => getSavedPosts(user.$id));
 
     useEffect(() => {
         refetch();
     }, [query])
 
     return (
-        <SafeAreaView className='bg-primary h-full mt-6'>
+        <SafeAreaView className='bg-primary h-full mt-12'>
 
             <FlatList
                 data={posts}

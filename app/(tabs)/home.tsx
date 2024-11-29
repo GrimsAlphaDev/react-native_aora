@@ -17,8 +17,8 @@ export default function Home() {
       console.log('Global Context is not available');
       return null;
   }
-  const { user, setUser, setIsLoggedIn } = globalContext;
-  const {data: posts, refetch} = useAppwrite(getAllPosts)
+  const { user } = globalContext;
+  const {data: posts, refetch} = useAppwrite(() => getAllPosts(user.$id));
   const {data: latestPosts} = useAppwrite(getLatestPosts)
 
   const [refreshing, setrefreshing] = useState(false)
@@ -31,15 +31,17 @@ export default function Home() {
   }
 
 
+
   return (
-    <SafeAreaView className='bg-primary h-full mt-12' >
+    <SafeAreaView className='bg-primary h-full mt-6' >
 
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard
             video={item}
+            bookmarked={true}
           />
         )}
         ListHeaderComponent={() => (

@@ -32,7 +32,10 @@ export default function SearchInput({ title, value, handleChangeText, otherStyle
                         return Alert.alert('Missing, query', 'Please Input something to search results across databases')
                     }
 
-                    if (pathname.startsWith('/search')) router.setParams({query})
+                    if (pathname.startsWith('/search')) router.setParams({
+                        query: query,
+                        option: 'HOME'
+                    })
                     else router.push(`/search/${query}`)
                 }}
             >

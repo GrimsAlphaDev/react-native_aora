@@ -21,7 +21,6 @@ export default function Profile() {
 
     const globalContext = useGlobalContext();
     if (!globalContext) {
-        console.log('Global Context is not available');
         return null;
     }
     const { user, setUser, setIsLoggedIn } = globalContext;
@@ -29,14 +28,15 @@ export default function Profile() {
     const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
 
     return (
-        <SafeAreaView className='bg-primary h-full mt-12'>
+        <SafeAreaView className='bg-primary h-full mt-6'>
 
             <FlatList
                 data={posts}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <VideoCard
                         video={item}
+                        bookmarked={false}
                     />
                 )}
                 ListHeaderComponent={() => (
